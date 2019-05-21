@@ -31,6 +31,7 @@ cp $BP_DIR/profile/* $BUILD_DIR/.profile.d/
 
 ### Load dependencies
 source $BP_DIR/lib/utils
+source $BP_DIR/lib/ef
 
 export_env_dir "$ENV_DIR"
 export NUGET_XMLDOC_MODE=${NUGET_XMLDOC_MODE:-skip}
@@ -75,8 +76,13 @@ echo "publish ${PROJECT_FILE}"
 dotnet build $PROJECT_FILE --output /$BUILD_DIR/release --configuration Release --runtime linux-x64
 dotnet publish $PROJECT_FILE --output /$BUILD_DIR/release --configuration Release --runtime linux-x64
 
-echo "Creating Procfile"
-
-cat << EOT >> ${BUILD_DIR}/Procfile
+if [ -f ${BUILD_DIR}/Procfile ] && grep -q '^web:' ${BUILD_DIR}/Procfile ; then
+	topic "WARNING"
+	echo "Be careful with custom Procfile" | indent
+else
+	echo "Add web process to Procfile" | indent
+	cat << EOT >> ${BUILD_DIR}/Procfile
 web: cd \$HOME/release && /app/newrelic/usr/local/newrelic-netcore20-agent/run.sh dotnet "./${PROJECT_NAME}.dll"
 EOT
+
+fi

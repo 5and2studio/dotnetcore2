@@ -31,7 +31,6 @@ cp $BP_DIR/profile/* $BUILD_DIR/.profile.d/
 
 ### Load dependencies
 source $BP_DIR/lib/utils
-source $BP_DIR/lib/ef
 
 export_env_dir "$ENV_DIR"
 export NUGET_XMLDOC_MODE=${NUGET_XMLDOC_MODE:-skip}

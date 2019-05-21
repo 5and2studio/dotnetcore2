@@ -1,6 +1,8 @@
 #!/bin/bash
 # chmod a+x /where/i/saved/it/hello_world.sh
 
+echo "sourceing dotnet_ef_update"
+
 ####
 #### This script is by Benjamin Day
 #### Twitter: @benday

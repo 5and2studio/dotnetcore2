@@ -51,10 +51,17 @@ elif [ -n "$(cat $PROJECT_FILE | grep 'netcoreapp2.1')" ]; then
 elif [ -n "$(cat $PROJECT_FILE | grep 'netcoreapp2.2')" ]; then
 	NETCORE_SDK="2.2.202"
 	NETCORE_VERSION="2.2.0"
+elif [ -n "$(cat $PROJECT_FILE | grep 'netcoreapp3.1')" ]; then
+  NETCORE_SDK="3.1.100"
+  NETCORE_VERSION="3.1"
 fi
 
 echo "Installing the dependencies"
-apt_install libunwind8 gettext iputils-ping
+apt_install \
+  libunwind8 \
+  gettext \
+  iputils-ping \
+  https://download.newrelic.com/dot_net_agent/previous_releases/8.18.241.0/newrelic-netcore20-agent_8.18.241.0_amd64.deb
 
 echo "Installing dotnet"
 install_dotnet $BUILD_DIR $CACHE_DIR $NETCORE_SDK $NETCORE_VERSION
